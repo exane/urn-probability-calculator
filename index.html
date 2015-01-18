@@ -9,7 +9,7 @@
     (function main(){
         //Test.TIMES = 10000;
 
-        Test("A < k AND B > k", function(){
+        Test("Urn: A < k AND B > k", function(){
             var urn = Urn({
                 content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             });
@@ -18,35 +18,68 @@
             var k = this.getRndInt(1, 10);
             return A < k && B > k;
         });
-        Test("A > k AND B < k", function(){
-            var urn = Urn({
-                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+
+        Test("Dice: A == B", function(){
+            var dice = Urn({
+                content: [1, 2, 3, 4, 5, 6],
                 replace: true
             });
-            var A = urn.getRandom();
-            var B = urn.getRandom();
-            var k = this.getRndInt(1, 10);
-            return A > k && B < k;
-        });
-        Test("A > k AND B > k", function(){
-            var urn = Urn({
-                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            var d1 = dice.getRandom();
+            var d2 = dice.getRandom();
+
+            return d1 == d2;
+        })
+
+        Test("Dice: A == B == C", function(){
+            var dice = Urn({
+                content: [1, 2, 3, 4, 5, 6],
                 replace: true
             });
-            var A = urn.getRandom();
-            var B = urn.getRandom();
-            var k = this.getRndInt(1, 10);
-            return A > k && B > k;
-        });
-        Test("A < k AND B < k", function(){
-            var urn = Urn({
-                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            var d1 = dice.getRandom();
+            var d2 = dice.getRandom();
+            var d3 = dice.getRandom();
+            return d1 == d2 && d1 == d3;
+        })
+
+        Test("Dice: A != B", function(){
+            var dice = Urn({
+                content: [1, 2, 3, 4, 5, 6],
+                replace: true
             });
-            var A = urn.getRandom();
-            var B = urn.getRandom();
-            var k = this.getRndInt(1, 10);
-            return A < k && B < k;
-        });
+            var d1 = dice.getRandom();
+            var d2 = dice.getRandom();
+            return d1 != d2;
+        })
+
+        Test("Dice: A == 5 AND B == 6", function(){
+            var dice = Urn({
+                content: [1, 2, 3, 4, 5, 6],
+                replace: true
+            });
+            var d1 = dice.getRandom();
+            var d2 = dice.getRandom();
+            return d1 == 5 && d2 == 6;
+        })
+
+        Test("Dice: A > 3 OR B > 3", function(){
+            var dice = Urn({
+                content: [1, 2, 3, 4, 5, 6],
+                replace: true
+            });
+            var d1 = dice.getRandom();
+            var d2 = dice.getRandom();
+            return d1 > 3 || d2 > 3;
+        })
+
+        Test("Dice: A > 3 OR B > 3 AND A != B", function(){
+            var dice = Urn({
+                content: [1, 2, 3, 4, 5, 6],
+                replace: true
+            });
+            var d1 = dice.getRandom();
+            var d2 = dice.getRandom();
+            return (d1 > 3 || d2 > 3) && d1 != d2;
+        })
     })();
 </script>
 </body>
