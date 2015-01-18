@@ -52,8 +52,7 @@ var Test = (function(){
     }
 
     r.getRndInt = function(min, max){
-        var rnd = Math.random()*max | 0;
-        return rnd >= min ? rnd : this.getRndInt(min, max);
+        return Math.round(Math.random() * (max - min)) + min;
     }
 
     r.print = function(){
