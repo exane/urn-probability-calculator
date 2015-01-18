@@ -5,5 +5,49 @@
     <script src="Urn.js"></script>
 </head>
 <body>
+<script>
+    (function main(){
+        //Test.TIMES = 10000;
+
+        Test("A < k AND B > k", function(){
+            var urn = Urn({
+                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            });
+            var A = urn.getRandom();
+            var B = urn.getRandom();
+            var k = this.getRndInt(1, 10);
+            return A < k && B > k;
+        });
+        Test("A > k AND B < k", function(){
+            var urn = Urn({
+                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                replace: true
+            });
+            var A = urn.getRandom();
+            var B = urn.getRandom();
+            var k = this.getRndInt(1, 10);
+            return A > k && B < k;
+        });
+        Test("A > k AND B > k", function(){
+            var urn = Urn({
+                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                replace: true
+            });
+            var A = urn.getRandom();
+            var B = urn.getRandom();
+            var k = this.getRndInt(1, 10);
+            return A > k && B > k;
+        });
+        Test("A < k AND B < k", function(){
+            var urn = Urn({
+                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            });
+            var A = urn.getRandom();
+            var B = urn.getRandom();
+            var k = this.getRndInt(1, 10);
+            return A < k && B < k;
+        });
+    })();
+</script>
 </body>
 </html>
