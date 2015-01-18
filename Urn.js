@@ -11,7 +11,9 @@ var Urn = (function(){
     var r = Urn.prototype;
 
     r._content = null;
-
+    r._ordered = null;
+    r._withReplacement = null;
+    
     r.remove = function(index){
         return (this._content.splice(index, 1))[0];
     }
@@ -32,21 +34,24 @@ var Test = (function(){
     var Test = function(desc, cb){
         if(!(this instanceof Test))
             return (new Test(desc, cb));
-
-        this.reset();
-        this.desc = desc;
+            
+        this._result = {
+            T: 0,
+            F: 0
+        }
+        this._desc = desc;
         this._test(cb);
     };
     var r = Test.prototype;
 
     Test.TIMES = 10000;
 
-    r.result = null;
-    r.desc = null;
+    r._result = null;
+    r._desc = null;
 
     r._test = function(cb){
         for(var i = 0; i < Test.TIMES; i++) {
-            cb.call(this) ? this.result.T++ : this.result.F++;
+            cb.call(this) ? this._result.T++ : this._result.F++;
         }
         this.print();
     }
@@ -57,20 +62,11 @@ var Test = (function(){
 
     r.print = function(){
         console.log("%c%s:\n\tLast Result: true = %d(%f%) | false = %d(%f%)", "color: green; font-size: 14px",
-        this.desc, this.result.T, this._percentage(this.result.T), this.result.F, this._percentage(this.result.F));
+        this._desc, this._result.T, this._percentage(this._result.T), this._result.F, this._percentage(this._result.F));
     }
 
     r._percentage = function(nr){
         return Math.round(100 * nr / Test.TIMES);
     }
-
-    r.reset = function(){
-        this.result = {
-            T: 0,
-            F: 0
-        }
-    }
-
-
     return Test;
 })();
