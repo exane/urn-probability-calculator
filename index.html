@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html>
 <head>
     <title>urn</title>
@@ -82,9 +82,9 @@
 				return (d1 > 3 || d2 > 3) && d1 != d2;
 		})
 		*/
-		Test("Glücksrad 1x rot bei 1 versuch", function(){
+		Test("GlÃ¼cksrad 1x rot bei 1 versuch", function(){
 			var rad = Urn({
-				content: ["rot", "grün", "blau", "weiss"],
+				content: ["rot", "grÃ¼n", "blau", "weiss"],
 				putBack: true
 			});
 			
@@ -95,9 +95,9 @@
 		})
 		
 		
-		Test("Glücksrad mindestens 1x rot bei 2 versuchen", function(){
+		Test("GlÃ¼cksrad mindestens 1x rot bei 2 versuchen", function(){
 			var rad = Urn({
-				content: ["rot", "grün", "blau", "weiss"],
+				content: ["rot", "grÃ¼n", "blau", "weiss"],
 				putBack: true
 			});
 			
@@ -111,9 +111,9 @@
 			return v === "rot";
 		})
 		
-		Test("Glücksrad genau 1x rot bei 3 versuchen", function(){
+		Test("GlÃ¼cksrad genau 1x rot bei 3 versuchen", function(){
 			var rad = Urn({
-				content: ["rot", "grün", "blau", "weiss"],
+				content: ["rot", "grÃ¼n", "blau", "weiss"],
 				putBack: true
 			});
 			
@@ -131,9 +131,9 @@
 			return hasRed;
 		})
 		
-		Test("Glücksrad mindestens 1x rot bei 3 versuchen", function(){
+		Test("GlÃ¼cksrad mindestens 1x rot bei 3 versuchen", function(){
 			var rad = Urn({
-				content: ["rot", "grün", "blau", "weiss"],
+				content: ["rot", "grÃ¼n", "blau", "weiss"],
 				putBack: true
 			});
 			
@@ -146,9 +146,9 @@
 			return false;
 		})
 		
-		Test("Glücksrad 3x grün bei 3 versuchen", function(){
+		Test("GlÃ¼cksrad 3x grÃ¼n bei 3 versuchen", function(){
 			var rad = Urn({
-				content: ["rot", "grün", "blau", "weiss"],
+				content: ["rot", "grÃ¼n", "blau", "weiss"],
 				putBack: true
 			});
 			
@@ -156,14 +156,14 @@
 			
 			for(var i = 0; i < 3; i++) {
 				v = rad.getRandom();
-				if(v !== "grün") return false;
+				if(v !== "grÃ¼n") return false;
 			}
 			return true;
 		})
 		
-		Test("Glücksrad mindestens 2x rot bei 3 versuchen", function(){
+		Test("GlÃ¼cksrad mindestens 2x rot bei 3 versuchen", function(){
 			var rad = Urn({
-				content: ["rot", "grün", "blau", "weiss"],
+				content: ["rot", "grÃ¼n", "blau", "weiss"],
 				putBack: true
 			});
 			
@@ -177,9 +177,9 @@
 			return c >= 2;
 		})
 		
-		Test("Glücksrad genau 2x rot bei 3 versuchen", function(){
+		Test("GlÃ¼cksrad genau 2x rot bei 3 versuchen", function(){
 			var rad = Urn({
-				content: ["rot", "grün", "blau", "weiss"],
+				content: ["rot", "grÃ¼n", "blau", "weiss"],
 				putBack: true
 			});
 			
