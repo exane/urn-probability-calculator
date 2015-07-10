@@ -6,7 +6,7 @@ var Urn = (function(){
 
         this._content = options.content;
         this._ordered = options.ordered || false;
-        this._withReplacement = options.replace || false;
+        this._withReplacement = options.putBack || false;
     };
     var r = Urn.prototype;
 
@@ -66,7 +66,7 @@ var Test = (function(){
     }
 
     r._percentage = function(nr){
-        return Math.round(100 * nr / Test.TIMES);
+        return Math.round(10000 * nr / Test.TIMES)/100;
     }
     return Test;
 })();
