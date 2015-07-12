@@ -1,0 +1,21 @@
+.color-green {
+  color: #009c00;
+}
+.color-red {
+  color: red;
+}
+
+.test-suit {
+  padding-left: 20px;
+  border: 1px solid black;
+}
+
+.content {
+  width: 960px;
+  margin: 0 auto;
+}
+
+textarea {
+  /*width: 960px;
+  height: 200px;*/
+}
