@@ -1,21 +1,41 @@
 import React, { Component } from "react";
 import CodeMirror from "./Codemirror";
 import AutoFormater from "js-beautify";
+import classNames from "classnames";
 
 class Suit extends Component {
 
   state = {
-    tests: []
+    tests: [],
+    stopped: true
   }
 
   constructor(props){
     super(props);
+
+    this.props.tests.on("change", () =>{
+      this.setState({
+        tests: this.props.tests
+      });
+    });
   }
 
-  add(test){
+  handleOnStop(val){
+
+    if(val === false){
+      this.props.tests.each((t) =>{
+        t.start()
+      });
+    }
     this.setState({
-      tests: this.state.tests.concat([test])
+      stopped: val
     });
+
+
+  }
+
+  handleReset() {
+    this.props.tests.each( t => t.reset() );
   }
 
   render(){
@@ -27,7 +47,7 @@ class Suit extends Component {
 
     return (
     <div>
-      <Nav />
+      <Nav stopped={ this.state.stopped } onReset={ this::this.handleReset } onToggle={this::this.handleOnStop}/>
       <div>{rows}</div>
     </div>
     );
@@ -36,7 +56,7 @@ class Suit extends Component {
 
 class Nav extends Component {
   state = {
-    openTest: true
+    openTest: false
   }
 
   openTest(){
@@ -45,13 +65,28 @@ class Nav extends Component {
     });
   }
 
+  stopTests(){
+    this.props.onToggle(true);
+  }
+
+  runTests(){
+    this.props.onToggle(false);
+  }
+
+  resetTests() {
+    this.props.onReset();
+  }
+
   render(){
     return (
     <div>
       <div className="nav">
-        <button onClick={this.openTest.bind(this)}>Write Test</button>
+        {/*<button onClick={this::this.openTest}>Write Test</button>*/}
+        { this.props.stopped ? <button onClick={ this::this.runTests }>Run</button> :
+        <button onClick={ this::this.stopTests }>Stop</button> }
+        <button onClick={ this::this.resetTests }>Reset</button>
       </div>
-    { this.state.openTest ? <WriteTest /> : "" }
+      { this.state.openTest ? <WriteTest /> : "" }
     </div>
     );
   }
@@ -61,13 +96,14 @@ class WriteTest extends Component {
   state = {
     code: "let dice = Urn({content: [1, 2, 3, 4, 5, 6],putBack: true});let d1 = dice.getRandom();let d2 = dice.getRandom();return d1 != d2;"
   }
-  updateCode(newCode) {
+
+  updateCode(newCode){
     this.setState({
       code: AutoFormater(newCode)
     });
   }
 
-  autoFormat() {
+  autoFormat(){
   }
 
   render(){
@@ -88,23 +124,23 @@ class WriteTest extends Component {
 }
 
 class Test extends Component {
-  constructor(props){
-    super(props);
+  onClick(e){
+    this.props.test.set("deactivated", !this.props.test.get("deactivated"));
   }
 
   render(){
     return (
-    <div className="test-suit">
+    <div onClick={this::this.onClick} className={ classNames("test-suit", {deactivated: this.props.test.attributes.deactivated} )}>
       <p>Description:
-        <b>{this.props.test._desc}</b>
+        <b>{this.props.test.attributes.desc}</b>
         <br />
-      Result:
-        <span className="color-green">true = {this.props.test._result.T}(
-          <b>{this.props.test._percentage(this.props.test._result.T)}%</b>
+        Result:
+        <span className="color-green">true = {this.props.test.attributes.result.T}(
+          <b>{this.props.test.percentage(this.props.test.attributes.result.T)}%</b>
         ) </span>
-      |
-        <span className="color-red"> false = {this.props.test._result.F}(
-          <b>{this.props.test._percentage(this.props.test._result.F)}%</b>
+        |
+        <span className="color-red"> false = {this.props.test.attributes.result.F}(
+          <b>{this.props.test.percentage(this.props.test.attributes.result.F)}%</b>
         )</span>
       </p>
     </div>

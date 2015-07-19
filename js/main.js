@@ -1,10 +1,235 @@
-import { Urn, Test } from "./Urn.js";
+import { Urn, Test, xTest } from "./Urn.js";
 
 
 (function main(){
-  Test.TIMES = 30000;
+  //Test.TIMES = 30000;
+  Test("Skat: 4 karten ziehen. Zwei paare erhalten. Allerdings kein Vierling", function(){
+    let skat = Urn({
+      content: [
+        0, 1, 2, 3, 4, 5, 6, 7,
+        0, 1, 2, 3, 4, 5, 6, 7,
+        0, 1, 2, 3, 4, 5, 6, 7,
+        0, 1, 2, 3, 4, 5, 6, 7
+      ],
+      putBack: false
+    });
 
-  Test("11 bonbons (10 gelbe + 1 rote). chance 4x gelbe zu ziehen", function(){
+    //let s = skat.getRandom();
+    let c = 0;
+
+    let p1, p2;
+
+
+    for(let i = 0; i < 4; i++) {
+      let res = skat.getRandom();
+      if(p1 === undefined) {
+        p1 = res;
+        continue;
+      }
+      if(p2 === undefined && p1 != res) {
+        p2 = res;
+        continue;
+      }
+      if(p1 === res) {
+        c++;
+        p1 = -1;
+      }
+      if(p2 === res) {
+        c++;
+        p2 = -1;
+      }
+    }
+
+    return c === 2;
+  })
+
+  Test("Skat: 2 karten ziehen. Ein paar erhalten", function(){
+    let skat = Urn({
+      content: [
+        0, 1, 2, 3, 4, 5, 6, 7,
+        0, 1, 2, 3, 4, 5, 6, 7,
+        0, 1, 2, 3, 4, 5, 6, 7,
+        0, 1, 2, 3, 4, 5, 6, 7
+      ],
+      putBack: false
+    });
+
+    let s = skat.getRandom();
+    let c = 1;
+
+
+    //for(let i = 0; i < 1; i++) {
+      let res = skat.getRandom();
+      if(s === res) c++;
+    //}
+
+    return c === 2;
+  })
+
+  Test("Skat: 4 gleichfarbige karten ziehen", function(){
+    let skat = Urn({
+      content: [
+        0, 0, 0, 0, 0, 0, 0, 0,
+        1, 1, 1, 1, 1, 1, 1, 1,
+        2, 2, 2, 2, 2, 2, 2, 2,
+        3, 3, 3, 3, 3, 3, 3, 3
+      ],
+      putBack: false
+    });
+
+    let s = 1;
+    let c = 0;
+
+
+    for(let i = 0; i < 4; i++) {
+      let res = skat.getRandom();
+      if(s === res) c++;
+    }
+
+    return c === 4;
+  })
+
+  xTest("3x Berg besteigen. Chance gipfel zu erreichen = 3/5 | wie hoch ist die chance mehr als 1 mal den gipfel zu erreichen?", function(){
+    let c = 0;
+
+    for(let i=0; i<3; i++) {
+      let rnd = Math.random();
+      rnd < 3/5 ? c++ : c;
+    }
+
+
+    return c >= 2;
+  })
+
+  xTest("3x Berg besteigen. Chance gipfel zu erreichen = 3/5 | wie hoch ist die chance 3 mal den gipfel zu erreichen?", function(){
+    let c = 0;
+
+    for(let i=0; i<3; i++) {
+      let rnd = Math.random();
+      rnd < 3/5 ? c++ : c;
+    }
+
+
+    return c == 3;
+  })
+
+  xTest("3x Berg besteigen. Chance gipfel zu erreichen = 3/5 | wie hoch ist die chance 2 mal den gipfel zu erreichen?", function(){
+    let c = 0;
+
+    for(let i=0; i<3; i++) {
+      let rnd = Math.random();
+      rnd < 3/5 ? c++ : c;
+    }
+
+
+    return c == 2;
+  })
+
+  xTest("3x Berg besteigen. Chance gipfel zu erreichen = 3/5 | wie hoch ist die chance 1 mal den gipfel zu erreichen?", function(){
+    let c = 0;
+
+    for(let i=0; i<3; i++) {
+      let rnd = Math.random();
+      rnd < 3/5 ? c++ : c;
+    }
+
+
+    return c == 1;
+  })
+
+  xTest("3x Berg besteigen. Chance gipfel zu erreichen = 3/5 | wie hoch ist die chance kein einziges mal den gipfel zu erreichen?", function(){
+    let c = 0;
+
+    for(let i=0; i<3; i++) {
+      let rnd = Math.random();
+      rnd < 3/5 ? c++ : c;
+    }
+
+
+    return c === 0;
+  })
+
+  xTest("Rücksendung von Schuhen. 50% Damen, 30% Herren, 20% Kinder. Grund 2 60%. Wie hoch ist die Chance das Grund 2 als rücksendegrund angegeben wird?", function(){
+    let c = 0;
+    let rnd = Math.random();
+    let s = rnd < 0.5 ? "D" : (rnd < 0.8 ? "H" : "K");
+
+    let g2 = s === "D" ? 0.6 : s === "H" ? 0.4 : 0.3;
+
+    return Math.random() < g2;
+  })
+  
+  xTest("3 Jäger. Chance zu treffen: A = 1/3 | B = 5/8 | C = 4/5. Hase wird genau 2x getroffen. Wie hoch ist die Chance das A trifft?", function(){
+    let c = 0;
+
+    let A, B, C;
+
+    A = Math.random() < 1 / 3 ? ++c : 0;
+    B = Math.random() < 5 / 8 ? ++c : 0;
+    C = Math.random() < 4 / 5 ? ++c : 0;
+
+    return A && c === 2;
+  })
+
+  xTest("3 Jäger. Chance zu treffen: A = 1/3 | B = 5/8 | C = 4/5. Hase wird genau 2x getroffen.", function(){
+    let c = 0;
+
+    let A, B, C;
+
+    A = Math.random() < 1 / 3 ? ++c : 0;
+    B = Math.random() < 5 / 8 ? ++c : 0;
+    C = Math.random() < 4 / 5 ? ++c : 0;
+
+    return c === 2;
+  })
+
+  xTest("3 Jäger. Chance zu treffen: A = 1/3 | B = 5/8 | C = 4/5. Wie hoch ist die Chance das jeder trifft?", function(){
+    let c = 0;
+
+    let A, B, C;
+
+    A = Math.random() < 1 / 3 ? ++c : 0;
+    B = Math.random() < 5 / 8 ? ++c : 0;
+    C = Math.random() < 4 / 5 ? ++c : 0;
+
+    return c === 3;
+  })
+
+  xTest("3 Jäger. Chance zu treffen: A = 1/3 | B = 5/8 | C = 4/5. Wie hoch ist die Chance das keiner trifft?", function(){
+    let c = 0;
+
+    let A, B, C;
+
+    A = Math.random() < 1 / 3 ? ++c : 0;
+    B = Math.random() < 5 / 8 ? ++c : 0;
+    C = Math.random() < 4 / 5 ? ++c : 0;
+
+    return c === 0;
+  })
+
+  xTest("Chance fahrticket zu erhalten 90%. 3 versuche. Wie hoch ist die wahrscheinlichkeit mindestens einmal kein ticket zu erhalten?", function(){
+    let c = 0;
+
+    for(let i = 0; i < 3; i++) {
+      let v = this.getRndInt(0, 100);
+      if(v >= 90) c++;
+    }
+
+    return c >= 1;
+  })
+
+  xTest("Chance fahrticket zu erhalten 90%. 3 versuche. Wie hoch ist die wahrscheinlichkeit bei jedem versuch ein ticket zu erhalten?", function(){
+    let c = 0;
+
+    for(let i = 0; i < 3; i++) {
+      let v = this.getRndInt(0, 100);
+      if(v < 90) c++;
+    }
+
+    return c === 3;
+  })
+  
+  xTest("11 bonbons (10 gelbe + 1 rote). chance 4x gelbe zu ziehen", function(){
     let urn = Urn({
       content: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
       putBack: false
@@ -20,7 +245,7 @@ import { Urn, Test } from "./Urn.js";
     return c === 4;
   })
 
-  Test("11 bonbons (10 gelbe + 1 rote). chance rote zu ziehen", function(){
+  xTest("11 bonbons (10 gelbe + 1 rote). chance rote zu ziehen", function(){
     let urn = Urn({
       content: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
       putBack: false
@@ -36,7 +261,7 @@ import { Urn, Test } from "./Urn.js";
     return c === 1;
   })
 
-  Test("Urn: A < k AND B > k", function(){
+  xTest("Urn: A < k AND B > k", function(){
     let urn = Urn({
       content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     });
@@ -46,7 +271,7 @@ import { Urn, Test } from "./Urn.js";
     return A < k && B > k;
   });
 
-  Test("Dice: A == B", function(){
+  xTest("Dice: A == B", function(){
     let dice = Urn({
       content: [1, 2, 3, 4, 5, 6],
       putBack: true
@@ -57,7 +282,7 @@ import { Urn, Test } from "./Urn.js";
     return d1 == d2;
   })
 
-  Test("Dice: A == B == C", function(){
+  xTest("Dice: A == B == C", function(){
     let dice = Urn({
       content: [1, 2, 3, 4, 5, 6],
       putBack: true
@@ -68,7 +293,7 @@ import { Urn, Test } from "./Urn.js";
     return d1 == d2 && d1 == d3;
   })
 
-  Test("Dice: A != B", function(){
+  xTest("Dice: A != B", function(){
     let dice = Urn({
       content: [1, 2, 3, 4, 5, 6],
       putBack: true
@@ -78,7 +303,7 @@ import { Urn, Test } from "./Urn.js";
     return d1 != d2;
   })
 
-  Test("Dice: A == 5 AND B == 6", function(){
+  xTest("Dice: A == 5 AND B == 6", function(){
     let dice = Urn({
       content: [1, 2, 3, 4, 5, 6],
       putBack: true
@@ -88,7 +313,7 @@ import { Urn, Test } from "./Urn.js";
     return d1 == 5 && d2 == 6;
   })
 
-  Test("Dice: A > 3 OR B > 3", function(){
+  xTest("Dice: A > 3 OR B > 3", function(){
     let dice = Urn({
       content: [1, 2, 3, 4, 5, 6],
       putBack: true
@@ -98,7 +323,7 @@ import { Urn, Test } from "./Urn.js";
     return d1 > 3 || d2 > 3;
   })
 
-  Test("Dice: A > 3 OR B > 3 AND A != B", function(){
+  xTest("Dice: A > 3 OR B > 3 AND A != B", function(){
     let dice = Urn({
       content: [1, 2, 3, 4, 5, 6],
       putBack: true
@@ -108,7 +333,7 @@ import { Urn, Test } from "./Urn.js";
     return (d1 > 3 || d2 > 3) && d1 != d2;
   })
 
-  Test("Glücksrad 1x rot bei 1 versuch", function(){
+  xTest("Glücksrad 1x rot bei 1 versuch", function(){
     let rad = Urn({
       content: ["rot", "grün", "blau", "weiss"],
       putBack: true
@@ -120,8 +345,7 @@ import { Urn, Test } from "./Urn.js";
     return v === "rot";
   })
 
-
-  Test("Glücksrad mindestens 1x rot bei 2 versuchen", function(){
+  xTest("Glücksrad mindestens 1x rot bei 2 versuchen", function(){
     let rad = Urn({
       content: ["rot", "grün", "blau", "weiss"],
       putBack: true
@@ -137,7 +361,7 @@ import { Urn, Test } from "./Urn.js";
     return v === "rot";
   })
 
-  Test("Glücksrad genau 1x rot bei 3 versuchen", function(){
+  xTest("Glücksrad genau 1x rot bei 3 versuchen", function(){
     let rad = Urn({
       content: ["rot", "grün", "blau", "weiss"],
       putBack: true
@@ -156,7 +380,7 @@ import { Urn, Test } from "./Urn.js";
     return c === 1;
   })
 
-  Test("Glücksrad mindestens 1x rot bei 3 versuchen", function(){
+  xTest("Glücksrad mindestens 1x rot bei 3 versuchen", function(){
     let rad = Urn({
       content: ["rot", "grün", "blau", "weiss"],
       putBack: true
@@ -171,7 +395,7 @@ import { Urn, Test } from "./Urn.js";
     return false;
   })
 
-  Test("Glücksrad 3x grün bei 3 versuchen", function(){
+  xTest("Glücksrad 3x grün bei 3 versuchen", function(){
     let rad = Urn({
       content: ["rot", "grün", "blau", "weiss"],
       putBack: true
@@ -186,7 +410,7 @@ import { Urn, Test } from "./Urn.js";
     return true;
   })
 
-  Test("Glücksrad mindestens 2x rot bei 3 versuchen", function(){
+  xTest("Glücksrad mindestens 2x rot bei 3 versuchen", function(){
     let rad = Urn({
       content: ["rot", "grün", "blau", "weiss"],
       putBack: true
@@ -202,7 +426,7 @@ import { Urn, Test } from "./Urn.js";
     return c >= 2;
   })
 
-  Test("Glücksrad genau 2x rot bei 3 versuchen", function(){
+  xTest("Glücksrad genau 2x rot bei 3 versuchen", function(){
     let rad = Urn({
       content: ["rot", "grün", "blau", "weiss"],
       putBack: true
@@ -221,7 +445,7 @@ import { Urn, Test } from "./Urn.js";
     return c === 2;
   })
 
-  Test("Skat: 4 gleichfarbige karten ziehen", function(){
+  xTest("Skat: 4 gleichfarbige karten ziehen", function(){
     let skat = Urn({
       content: [
         0, 0, 0, 0, 0, 0, 0, 0,
@@ -241,7 +465,7 @@ import { Urn, Test } from "./Urn.js";
     return true;
   })
 
-  Test("Skat: 2 karten ziehen und ein paar erhalten", function(){
+  xTest("Skat: 2 karten ziehen und ein paar erhalten", function(){
     let skat = Urn({
       content: [
         0, 1, 2, 3, 4, 5, 6, 7,
@@ -303,6 +527,5 @@ import { Urn, Test } from "./Urn.js";
 
     return result.p1 && result.p2;
   })
-
 
 })();

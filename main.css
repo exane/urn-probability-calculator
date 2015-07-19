@@ -8,6 +8,11 @@
 .test-suit {
   padding-left: 20px;
   border: 1px solid black;
+  cursor: pointer;
+}
+
+.test-suit:hover {
+  box-shadow: 5px 5px #000;
 }
 
 .content {
@@ -18,4 +23,17 @@
 textarea {
   /*width: 960px;
   height: 200px;*/
+}
+
+.deactivated, .deactivated span {
+  color: #b7b7b7 !important;
+}
+
+.deactivated p {
+  margin: 2px !important;
+  overflow: hidden;
+  max-height: 18px;
+}
+.deactivated span {
+  display: none;
 }
