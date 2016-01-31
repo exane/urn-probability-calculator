@@ -40,4 +40,4 @@ gulp.task("watch", function(){
   gulp.watch("./*.css", ["css"]);
 })
 
-gulp.task("default", ["watch", "browserify", "css"]);
+gulp.task("default", [/*"watch", */"browserify", "css"]);
